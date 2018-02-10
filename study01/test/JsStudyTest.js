@@ -42,7 +42,7 @@ describe('Function Foo', () =>{
 		})
 		it('should return number',()=>{
 			let result = JsStudy.foo(3,4);
-			result.should.be.a('number');
+			result.should.be.a('String');
 			
 		});
 		it('should equal 12',()=>{

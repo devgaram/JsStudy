@@ -1,0 +1,29 @@
+doctype html
+html
+	head
+		meta(charset='utf-8')
+	body
+		h1 
+			a(href='/topic_sql') Server Side Javascript
+		ul
+			each topic in topics
+				li
+					a(href='/topic_sql/'+topic.id)= topic.title
+			else
+				li There are no topics
+		article
+			if topic
+				h2= topic.title	
+				= topic.description
+				div= 'by '  + topic.author
+			else
+				h2 welcome
+				| this is server side javascript tutorial.
+		ul
+			li
+				a(href='/topic_sql/new') new
+			if topic
+				li
+					a(href='/topic_sql/'+topic.id+'/edit') edit
+				li
+					a(href='/topic_sql/'+topic.id+'/delete') delete

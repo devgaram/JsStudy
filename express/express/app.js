@@ -31,7 +31,6 @@ app.locals.pretty = true; //html 코드 가독성 향상.
 
   path.join(__dirname, 'views')
   return C:\Users\USER\Desktop\JsStudy\express\express\views
-
 */
 app.set('views', path.join(__dirname, 'views'));
 

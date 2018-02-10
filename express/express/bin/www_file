@@ -1,0 +1,18 @@
+#!/usr/bin/env node
+
+
+const app = require('../app_file');
+const http = require('http');
+const fnWWW = require('../functions/fnWWW');
+
+let port = fnWWW.normalizePort(process.env.PORT || '3000');
+app.set('port',port);
+
+let server = http.createServer(app);
+server.listen(port, ()=>{
+	console.log('connected port!');
+});
+
+
+
+
