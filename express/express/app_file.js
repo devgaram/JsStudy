@@ -1,7 +1,8 @@
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const app = express(); //app 객체 생성
 const topic = require('./routes_file/topic');
@@ -18,13 +19,18 @@ app.use(express.static(path.join(__dirname, 'upload')));
 
 //쿠키 미들웨어 설정.
 app.use(cookieParser('23asfag@#$%')); 	//암호의 키값이 됨.
+app.use(session({
+	secret : '1234asdf!@#$',
+	resave : false,
+	saveUninitialized : true	//세션을 실제로 사용하기 전까지는 발급하지 말아라.
+}));
 
 //라우터 설정
 //app.use('/topic',topic); //파일 저장 예제
 //app.use('/upload',upload); //파일 업로드 예제.
 //app.use('/topic_sql',topic_sql); //파일 업로드 예제.
-/**20180224 쿠키*/
-app.use('/',cookie); //파일 업로드 예제.
+/**20180224 쿠키&세션*/
+app.use('/',cookie); 
 
 //pug 설정
 app.locals.pretty = true; 

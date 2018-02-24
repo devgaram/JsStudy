@@ -63,4 +63,21 @@ router.get('/cart',(req,res,next)=>{
 
 });
 
+/*세션
+서버가 웹브라우저에게 고유의 값을 전달함 connect.sid
+서버는 connect.sid가 같으면.. 같은 사용자로 간주 할 수 있지 않을까.
+connect.sid값만 서버에 보냄.
+쿠키는 count값을 서버에 보냄.
+*/
+router.get('/count',(req,res,next)=>{
+	if(req.session.count)
+		req.session.count++;	//req.session.coun는 값 get/set 가능.
+	else
+		req.session.count = 1;	
+	
+	res.send('result : ' +req.session.count);
+});
+
+
+
 module.exports = router;
