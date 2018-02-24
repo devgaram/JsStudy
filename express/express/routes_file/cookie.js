@@ -129,10 +129,13 @@ router.get('/welcome',(req,res,next)=>{
 
 router.get('/auth/logout',(req,res,next)=>{
 
-	if(req.session.displayName){
-		delete req.session.displayName;
+	
+	delete req.session.displayName;
+	req.session.save(()=>{	//세션이 저장된 후에 실행되도록
 		res.redirect('/welcome');
-	}
+	})
+	
+	
 	
 });
 
