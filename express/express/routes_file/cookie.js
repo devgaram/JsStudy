@@ -94,22 +94,20 @@ router.get('/auth/login',(req,res,next)=>{
 });
 
 router.post('/auth/login',(req,res,next)=>{
-	let user = {
-		username : 'egoing',
-		password : '111',
-		displayName : 'Egoing'
-	};
-
+	
 	let uname = req.body.username;
 	let pwd = req.body.password;
-	
-	if(uname === user.username && pwd === user.password){
-		req.session.displayName = user.displayName;
-		res.redirect('/welcome');
-	}
-	else{
-		res.send('who are you? <a href="/auth/login">login</a>');
-	}
+
+	for(let i=0; i<users.length; i++){
+		let user = users[i];
+		if(uname === user.username && pwd === user.password){
+			req.session.displayName = user.displayName;
+			return req.session.save(()=>{
+				res.redirect('/welcome');
+			});
+		}		
+	}	
+	res.send('who are you? <a href="/auth/login">login</a>');
 	
 });
 
@@ -123,6 +121,7 @@ router.get('/welcome',(req,res,next)=>{
 		res.send(`
 			<h1>welcome</h1>
 			<a href="/auth/login">login</a>
+			<a href="/auth/register">register</a>
 			`);
 	
 });
@@ -133,12 +132,54 @@ router.get('/auth/logout',(req,res,next)=>{
 	delete req.session.displayName;
 	req.session.save(()=>{	//세션이 저장된 후에 실행되도록
 		res.redirect('/welcome');
-	})
-	
-	
+	});
 	
 });
 
+router.get('/auth/register',(req,res,next)=>{
+	let output =`
+ 	<form action="/auth/register" method="post">
+ 		<p>
+			<input type="text" name="username" placeholder="username">
+ 		</p>
+ 		<p>
+ 			<input type="password" name="password" placeholder="password">
+ 		</p>
+ 		<p>
+ 			<input type="text" name="displayName" placeholder="displayName">
+ 		</p>
+ 		<input type="submit" value="register">
+ 	</form>
+	`;
+	res.send(output);	
+	
+});
+var users = [{
+		username : 'egoing',
+		password : '111',
+		displayName : 'Egoing'
+	}];
 
+router.post('/auth/register',(req,res,next)=>{
+	
+
+	let uname = req.body.username;
+	let pwd = req.body.password;
+	let displayName = req.body.displayName;
+
+	let user = {
+		username : uname,
+		password : pwd,
+		displayName : displayName
+	};
+
+	users.push(user);
+	req.session.displayName = req.body.displayName;
+	req.session.save(()=>{
+		res.redirect('/welcome');
+	});
+	
+	
+});
 
 module.exports = router;
