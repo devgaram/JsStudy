@@ -74,8 +74,66 @@ router.get('/count',(req,res,next)=>{
 		req.session.count++;	//req.session.coun는 값 get/set 가능.
 	else
 		req.session.count = 1;	
-	
+
 	res.send('result : ' +req.session.count);
+});
+
+router.get('/auth/login',(req,res,next)=>{
+	let output =`
+ 	<form action="/auth/login" method="post">
+ 		<p>
+			<input type="text" name="username" placeholder="username">
+ 		</p>
+ 		<p>
+ 			<input type="password" name="password" placeholder="password">
+ 		</p>
+ 		<input type="submit" value="login">
+ 	</form>
+	`;
+	res.send(output);
+});
+
+router.post('/auth/login',(req,res,next)=>{
+	let user = {
+		username : 'egoing',
+		password : '111',
+		displayName : 'Egoing'
+	};
+
+	let uname = req.body.username;
+	let pwd = req.body.password;
+	
+	if(uname === user.username && pwd === user.password){
+		req.session.displayName = user.displayName;
+		res.redirect('/welcome');
+	}
+	else{
+		res.send('who are you? <a href="/auth/login">login</a>');
+	}
+	
+});
+
+router.get('/welcome',(req,res,next)=>{
+	if(req.session.displayName)
+		res.send(`
+			<h1>hello,${req.session.displayName}</h1>
+			<a href="/auth/logout">logout</a>`
+			);
+	else
+		res.send(`
+			<h1>welcome</h1>
+			<a href="/auth/login">login</a>
+			`);
+	
+});
+
+router.get('/auth/logout',(req,res,next)=>{
+
+	if(req.session.displayName){
+		delete req.session.displayName;
+		res.redirect('/welcome');
+	}
+	
 });
 
 

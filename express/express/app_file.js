@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const FileStore = require('session-file-store')(session);
 
 const app = express(); //app 객체 생성
 const topic = require('./routes_file/topic');
@@ -22,7 +23,12 @@ app.use(cookieParser('23asfag@#$%')); 	//암호의 키값이 됨.
 app.use(session({
 	secret : '1234asdf!@#$',
 	resave : false,
-	saveUninitialized : true	//세션을 실제로 사용하기 전까지는 발급하지 말아라.
+	saveUninitialized : true,	//세션을 실제로 사용하기 전까지는 발급하지 말아라.
+	store : new FileStore() 	/*
+									세션정보를 filestore에 저장한다~
+									sessions 폴더를 만듬.
+									서버 껏다켜도 해당 파일 읽어와서 세션 유지됨.
+								*/
 }));
 
 //라우터 설정
