@@ -3,12 +3,12 @@ const router = express.Router();
 
 router.get('/cookie', (req, res, next)=>{
 	//쿠키의 값은 숫자로 셋팅되도 문자가 됨.
-	if(req.cookies.count)
-		var count = parseInt(req.cookies.count)+1;
+	if(req.signedCookies.count)
+		var count = parseInt(req.signedCookies.count)+1;
 	else
 		var count = 0;
 
-	res.cookie('count',count);
+	res.cookie('count',count,{signed:true});
 	res.send('count: '+count);
 });
 var products = {
@@ -30,8 +30,8 @@ router.get('/products', (req, res, next)=>{
 
 router.get('/cart/:id', (req,res,next)=>{
 	let id = req.params.id;
-	if(req.cookies.cart){
-		var cart = req.cookies.cart;
+	if(req.signedCookies.cart){
+		var cart = req.signedCookies.cart;
 	}
 	else{
 		var cart = {};	
@@ -40,13 +40,13 @@ router.get('/cart/:id', (req,res,next)=>{
 		cart[id] = 0;
 
 	cart[id] = parseInt(cart[id])+1;
-	res.cookie('cart', cart);
+	res.cookie('cart', cart,{signed:true});
 	res.redirect('/cart');
 
 });
 
 router.get('/cart',(req,res,next)=>{
-	let cart = req.cookies.cart;
+	let cart = req.signedCookies.cart;
 	if(!cart)
 		res.rend('empty!');
 	else{

@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'upload')));
 
 //쿠키 미들웨어 설정.
-app.use(cookieParser())
+app.use(cookieParser('23asfag@#$%')); 	//암호의 키값이 됨.
 
 //라우터 설정
 //app.use('/topic',topic); //파일 저장 예제
