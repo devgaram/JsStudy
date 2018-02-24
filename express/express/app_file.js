@@ -6,6 +6,8 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const MySQLStore = require('express-mysql-session')(session);
 
+
+
 const app = express(); //app 객체 생성
 const topic = require('./routes_file/topic');
 const upload = require('./routes_file/upload');
