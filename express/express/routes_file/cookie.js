@@ -107,6 +107,7 @@ router.post('/auth/login',(req,res,next)=>{
 				if(hash === user.password){
 					req.session.displayName = user.displayName;
 					return req.session.save(()=>{
+						//res.send('success');
 						res.redirect('/welcome');
 					});
 				}
@@ -131,7 +132,13 @@ router.get('/welcome',(req,res,next)=>{
 			<a href="/auth/login">login</a>
 			<a href="/auth/register">register</a>
 			`);
+
+			
 	
+});
+
+router.get('/usersinfo',(req,res,next)=>{
+	return res.json(users);
 });
 
 router.get('/auth/logout',(req,res,next)=>{
@@ -186,10 +193,6 @@ router.post('/auth/register',(req,res,next)=>{
 			res.redirect('/welcome');
 		});
 	});
-	
-
-	
-	
 	
 });
 
